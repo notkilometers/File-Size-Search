@@ -2,12 +2,21 @@
 searches files from given root directory and subfolders, returns sorted vector with name and size
 
 ## Usage:
-
+### Windows:
 ```Rust
 fn main() {
-    let mut v = Vec::<File>::new();
-    search_folder("C:\\Users", &mut v);
-    sort_vector(&mut v);
-    println!("{:?}", v);
+    let mut files = Vec::<File>::new();
+    search_folder("C:\\Users", &mut files);
+    sort_vector(&mut files);
+    println!("{:?}", files);
+}
+```
+### Linux:
+```Rust
+fn main() {
+    let mut files = Vec::<File>::new();
+    search_folder("/home", &mut files);
+    sort_vector(&mut files);
+    println!("{:?}", files);
 }
 ```
