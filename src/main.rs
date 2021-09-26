@@ -38,14 +38,22 @@ fn search_folder(directory: &str, files: &mut Vec<File>) {
     }
 }
 
-// sort vector by comparing file size
+// sort vector by comparing file size, reverse so output ends with largest files
 fn sort_vector(files : &mut Vec<File>) {
     files.sort_by(|a, b| b.size.cmp(&a.size));
+    files.reverse();
+}
+
+// prints n files from vector
+fn print_files(files: &mut Vec<File>, n: i32) {
+    for _i in 1..=n {
+        println!("{:?}", files);
+    }
 }
 
 fn main() {
-    let mut v = Vec::<File>::new();
-    search_folder("/home/null/rustcode", &mut v);
-    sort_vector(&mut v);
-    println!("{:?}", v);
+    let mut files = Vec::<File>::new();
+    search_folder("/home/null", &mut files);
+    sort_vector(&mut files);
+    print_files(&mut files, 10);
 }
