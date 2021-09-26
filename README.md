@@ -8,7 +8,7 @@ fn main() {
     let mut files = Vec::<File>::new();
     search_folder("C:\\Users", &mut files);
     sort_vector(&mut files);
-    println!("{:?}", files);
+    print_files(&mut files, 10);
 }
 ```
 ### Linux:
@@ -17,6 +17,6 @@ fn main() {
     let mut files = Vec::<File>::new();
     search_folder("/home", &mut files);
     sort_vector(&mut files);
-    println!("{:?}", files);
+    print_files(&mut files, 10);
 }
 ```
