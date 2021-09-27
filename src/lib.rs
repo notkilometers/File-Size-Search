@@ -1,7 +1,11 @@
+#![allow(non_snake_case)]
+#![crate_type = "lib"]
+#![crate_name ="FileSearch"]
+
 use std::{fs, fmt};
 
 // File struct containing the path and the size of file
-struct File {
+pub struct File {
     path: String,
     size: u64
 }
@@ -13,9 +17,11 @@ impl std::fmt::Debug for File {
             write!(f, "({}, {})\n", self.path, self.size)
     }
 }
-
-// searches folders until reaches leaf, adds all files to vector
-fn search_folder(directory: &str, files: &mut Vec<File>) {
+    
+// performs traversal of branches & files
+pub fn search (directory: &str) -> Vec<File> {
+    // create vector to add files to
+    let mut files = Vec::<File>::new();
     // gets folder, reads
     let folder = fs::read_dir(directory).expect("Invalid Dir");
     // for each entry (file, directory) in the folder 
@@ -29,31 +35,25 @@ fn search_folder(directory: &str, files: &mut Vec<File>) {
             // push file onto vector
             files.push(File { 
                 path: path.to_str().unwrap().to_string(),
-                 size: metadata.len() });
+                size: metadata.len() });
         } 
         // if is directory, call search on subfolder
         else {
-            search_folder(path.to_str().unwrap(), files);
+            files.append(&mut search(path.to_str().unwrap()));
         }
     }
+
+    files
 }
 
-// sort vector by comparing file size, reverse so output ends with largest files
-fn sort_vector(files : &mut Vec<File>) {
-    files.sort_by(|a, b| b.size.cmp(&a.size));
-    files.reverse();
+// sorts vector s/t largest files are at the end
+pub fn sort(files: &mut Vec<File>) {
+    files.sort_by(|a, b| a.size.cmp(&b.size));
 }
 
-// prints n files from vector
-fn print_files(files: &mut Vec<File>, n: i32) {
-    for _i in 1..=n {
-        println!("{:?}", files);
+// prints files from vector
+pub fn print(files: &mut Vec<File>) {
+    for file in files.iter() {
+        println!("{:?}", file);
     }
-}
-
-fn main() {
-    let mut files = Vec::<File>::new();
-    search_folder("/home/null", &mut files);
-    sort_vector(&mut files);
-    print_files(&mut files, 10);
 }
